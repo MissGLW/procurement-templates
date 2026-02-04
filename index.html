@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>招标采购文件模板导航系统</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        /* 头部样式 */
+        .header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #1a252f 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(52, 152, 219, 0.1) 0%, transparent 70%);
+            animation: pulse 20s infinite linear;
+        }
+        
+        @keyframes pulse {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto 25px;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 25px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        
+        /* 主内容区 */
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            padding: 40px;
+        }
+        
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* 流程图区域 */
+        .flowchart-section {
+            background: var(--light-color);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--secondary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .flowchart-container {
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            background: white;
+            height: 650px;
+            overflow: hidden;
+        }
+        
+        .flowchart-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        /* 文件列表区域 */
+        .file-list-section {
+            background: var(--light-color);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .search-container {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .search-container input {
+            width: 100%;
+            padding: 15px 20px 15px 50px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .search-container input:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #95a5a6;
+        }
+        
+        .file-list {
+            max-height: 550px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        
+        .category {
+            margin-top: 25px;
+            padding: 12px 20px;
+            background: linear-gradient(to right, #e3f2fd, white);
+            border-radius: 8px;
+            border-left: 4px solid var(--secondary-color);
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .file-item {
+            padding: 15px;
+            margin-bottom: 10px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .file-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .file-icon {
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+            min-width: 24px;
+        }
+        
+        .file-name {
+            flex: 1;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .download-btn {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        
+        .download-btn:hover {
+            background: #2980b9;
+        }
+        
+        /* 使用说明区域 */
+        .instructions {
+            background: linear-gradient(135deg, #e8f4fc 0%, #d1ecf1 100%);
+            padding: 30px 40px;
+            margin: 0 40px 40px;
+            border-radius: 15px;
+            border-left: 6px solid var(--secondary-color);
+        }
+        
+        .instructions h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .feature {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        .feature i {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        
+        /* 页脚 */
+        .footer {
+            text-align: center;
+            padding: 25px;
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .access-info {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            font-family: monospace;
+            word-break: break-all;
+        }
+        
+        /* 滚动条样式 */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .header {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+            
+            .instructions {
+                margin: 0 20px 20px;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 头部 -->
+        <header class="header">
+            <div class="header-content">
+                <h1>
+                    <i class="fas fa-sitemap"></i>
+                    招标采购文件模板导航系统
+                </h1>
+                <p class="subtitle">
+                    一站式在线模板管理平台 | 可视化流程导航 | 云端即时访问 | 无需安装下载
+                </p>
+                
+                <div class="stats">
+                    <div class="stat-item">
+                        <i class="fas fa-file-alt"></i>
+                        <span id="templateCount">23</span> 个模板文件
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-project-diagram"></i>
+                        6 个采购阶段
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-cloud"></i>
+                        网络版 v1.0
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- 主内容区 -->
+        <div class="main-content">
+            <!-- 左侧：流程图 -->
+            <section class="flowchart-section">
+                <h2 class="section-title">
+                    <i class="fas fa-map-signs"></i>
+                    采购全流程可视化导航
+                </h2>
+                <div class="flowchart-container">
+                    <iframe src="flowchart.html" title="采购流程图"></iframe>
+                </div>
+                <p style="margin-top: 15px; color: #666; font-size: 14px;">
+                    <i class="fas fa-mouse-pointer"></i> 提示：点击流程图中的任意模板框，即可直接下载对应文件
+                </p>
+            </section>
+            
+            <!-- 右侧：文件列表 -->
+            <section class="file-list-section">
+                <h2 class="section-title">
+                    <i class="fas fa-search"></i>
+                    模板快速检索
+                </h2>
+                
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="searchInput" placeholder="输入关键词搜索模板文件...">
+                </div>
+                
+                <div class="file-list" id="fileList">
+                    <!-- 这里的内容将由JavaScript动态生成 -->
+                </div>
+            </section>
+        </div>
+        
+        <!-- 使用说明 -->
+        <section class="instructions">
+            <h3>
+                <i class="fas fa-lightbulb"></i>
+                系统特点与使用说明
+            </h3>
+            
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-globe"></i>
+                    <h4>云端访问</h4>
+                    <p>通过浏览器即可随时随地访问使用。</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-sync-alt"></i>
+                    <h4>实时更新</h4>
+                    <p>模板更新后，所有用户立即获得最新版本，确保一致性。</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h4>多端兼容</h4>
+                    <p>支持电脑、平板、手机访问。</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>© 2026 招标采购模板导航系统</p>
+            <p style="margin-top: 10px; opacity: 0.8;">
+                最后更新：<span id="currentDate"></span> | 
+                技术支持：信息技术研究中心
+            </p>
+            <div class="access-info" id="accessUrl">
+                访问地址：正在生成...
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // 模板数据 - 根据您最新的flowchart.html更新
+        const templates = [
+            {
+                category: "1. 编制采购计划",
+                files: [
+                    { name: "关于申请开展XX采购工作的请示-科研类采购【模板】", filename: "关于申请开展XX采购工作的请示-科研类采购【模板】.docx" },
+                    { name: "关于申请XX采购紧急计划及开展采购工作的请示-非科研类【模板】", filename: "关于申请XX采购紧急计划及开展采购工作的请示-非科研类【模板】.docx" }
+                ]
+            },
+            {
+                category: "2. 市场调研",
+                files: [
+                    { name: "市场调研报告【模板】", filename: "市场调研报告【模板】.docx" }
+                ]
+            },
+            {
+                category: "3. 招标文件审查",
+                files: [
+                    { name: "招标文件审查会议纪要【模板】", filename: "招标文件审查会议纪要【模板】.docx" }
+                ]
+            },
+            {
+                category: "4. 采购立项",
+                files: [
+                    { name: "采购立项说明-科研项目【模板】", filename: "采购立项说明-科研项目【模板】.docx" },
+                    { name: "采购立项说明-专项【模板】", filename: "采购立项说明-专项【模板】.docx" }
+                ]
+            },
+            {
+                category: "5. 采购实施",
+                files: [
+                    { name: "谈判采购评审会议工作邀请函【模板】", filename: "谈判采购评审会议工作邀请函【模板】.docx" },
+                    { name: "谈判采购评审报告-公开征集-综合评分法-科研类采购【模板】", filename: "谈判采购评审报告-公开征集-综合评分法-科研类采购【模板】.docx" },
+                    { name: "谈判采购评审报告-公开征集-综合评分法-专项工作采购【模板】", filename: "谈判采购评审报告-公开征集-综合评分法-专项工作采购【模板】.docx" },
+                    { name: "谈判采购评审报告-公开征集-最低报价法-科研类采购【模板】", filename: "谈判采购评审报告-公开征集-最低报价法-科研类采购【模板】.docx" },
+                    { name: "谈判采购评审报告-公开征集-最低报价法-专项采购【模板】", filename: "谈判采购评审报告-公开征集-最低报价法-专项采购【模板】.docx" },
+                    { name: "简易采购评审报告-科研类采购【模板】", filename: "简易采购评审报告-科研类采购【模板】.docx" },
+                    { name: "简易采购评审报告-专项采购【模板】", filename: "简易采购评审报告-专项采购【模板】.docx" },
+                    { name: "直接采购评审报告【模板】", filename: "直接采购评审报告【模板】.docx" }
+                ]
+            },
+            {
+                category: "6. 合同签订",
+                files: [
+                    { name: "合同谈判备忘录【模板】", filename: "合同谈判备忘录【模板】.docx" },
+                    { name: "合同签订情况说明-科研项目【模板】", filename: "合同签订情况说明-科研项目【模板】.docx" },
+                    { name: "合同签订情况说明-非科研项目【模板】", filename: "合同签订情况说明-非科研项目【模板】.docx" }
+                ]
+            },
+            {
+                category: "7. 招标采购标准文件库",
+                files: [
+                    { name: "谈判采购标准文件-综合评分法【模板】", filename: "结构化-2024-谈判采购标准文件-综合评分法【模板】.doc" },
+                    { name: "谈判采购标准文件-最低报价法【模板】", filename: "结构化-2024-谈判采购标准文件-最低报价法【模板】.doc" },
+                    { name: "直接采购标准文件【模板】", filename: "结构化-2024-直接采购标准文件【模板】.doc" },
+                    { name: "询比采购标准文件-最低报价法【模板】", filename: "结构化-2024-询比采购标准文件-最低报价法【模板】.doc" },
+                    { name: "询比采购标准文件-综合评分法【模板】", filename: "结构化-2024-询比采购标准文件-综合评分法【模板】.doc" },
+                    { name: "竞价采购标准文件【模板】", filename: "结构化-2024-cc.doc" }
+                ]
+            }
+        ];
+
+        // 计算模板总数
+        const totalTemplates = templates.reduce((total, category) => total + category.files.length, 0);
+        document.getElementById('templateCount').textContent = totalTemplates;
+
+        // 设置当前日期
+        document.getElementById('currentDate').textContent = new Date().toLocaleDateString('zh-CN', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+
+        // 生成文件列表
+        function renderFileList(filter = '') {
+            const fileListEl = document.getElementById('fileList');
+            fileListEl.innerHTML = '';
+            
+            let hasResults = false;
+            
+            templates.forEach(category => {
+                // 过滤该类别下的文件
+                const filteredFiles = category.files.filter(file => 
+                    file.name.toLowerCase().includes(filter.toLowerCase()) ||
+                    file.filename.toLowerCase().includes(filter.toLowerCase())
+                );
+                
+                if (filteredFiles.length === 0) return;
+                
+                hasResults = true;
+                
+                // 创建类别标题
+                const categoryEl = document.createElement('div');
+                categoryEl.className = 'category';
+                categoryEl.textContent = category.category;
+                fileListEl.appendChild(categoryEl);
+                
+                // 创建文件列表
+                filteredFiles.forEach(file => {
+                    const fileItem = document.createElement('div');
+                    fileItem.className = 'file-item';
+                    
+                    // 根据文件扩展名确定图标
+                    const fileExt = file.filename.split('.').pop().toLowerCase();
+                    let fileIcon = 'far fa-file-alt';
+                    if (fileExt === 'docx' || fileExt === 'doc') {
+                        fileIcon = 'far fa-file-word';
+                    } else if (fileExt === 'xlsx' || fileExt === 'xls') {
+                        fileIcon = 'far fa-file-excel';
+                    } else if (fileExt === 'pptx' || fileExt === 'ppt') {
+                        fileIcon = 'far fa-file-powerpoint';
+                    } else if (fileExt === 'pdf') {
+                        fileIcon = 'far fa-file-pdf';
+                    }
+                    
+                    fileItem.innerHTML = `
+                        <div class="file-icon">
+                            <i class="${fileIcon}"></i>
+                        </div>
+                        <div class="file-name">${file.name}</div>
+                        <a href="./templates/${encodeURIComponent(file.filename)}" class="download-btn" download>
+                            <i class="fas fa-download"></i> 下载
+                        </a>
+                    `;
+                    
+                    fileListEl.appendChild(fileItem);
+                });
+            });
+            
+            // 如果没有结果
+            if (!hasResults && filter) {
+                fileListEl.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #95a5a6;">
+                        <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 20px;"></i>
+                        <h3>未找到匹配的模板</h3>
+                        <p>请尝试其他关键词，或联系管理员添加新模板</p>
+                    </div>
+                `;
+            }
+        }
+
+        // 初始化渲染
+        renderFileList();
+
+        // 搜索功能
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            renderFileList(e.target.value);
+        });
+
+        // 自动聚焦搜索框
+        document.getElementById('searchInput').focus();
+
+        // 显示访问地址
+        if (window.location.hostname.includes('github.io')) {
+            document.getElementById('accessUrl').textContent = `访问地址：${window.location.href}`;
+        } else {
+            document.getElementById('accessUrl').textContent = `访问地址：${window.location.protocol}//${window.location.host}${window.location.pathname}`;
+        }
+    </script>
+</body>
+</html>
